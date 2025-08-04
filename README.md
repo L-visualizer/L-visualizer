@@ -1,12 +1,21 @@
-- 👋 The Name's Lalethesh aka L-visualizer
-- 👀 I’m interested in various stuff
-- 🌱 I’m currently learning everything
-- 💞️ I’m looking to collaborate on few people close to me
-- 📫 How to reach me - github, twitter/x, facebook, etc., my discord id - youshouldsmilerightnow.
-- 😄 Pronouns: screaming/eagle
-- ⚡ Fun fact: I'm dumb and unfunny
+<div style="
+  font-family: 'Courier New', monospace;
+  font-size: 28px;
+  color: #00FF00;
+  background-color: black;
+  padding: 20px;
+  border: 5px double #0f0;
+  text-align: center;
+  text-shadow: 0 0 8px #0f0;
+  animation: flicker 1.5s infinite;
+">
+  🚀 WELCOME TO MY GiiT PROFILE 💻
+</div>
 
-<!---
-L-visualizer/L-visualizer is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+<style>
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+</style>
