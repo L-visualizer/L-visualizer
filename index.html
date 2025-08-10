@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Banner</title>
+    <style>
+        @font-face {
+            font-family: 'ArcadeClassic';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/arcade-classic/1.0.0/arcade-classic.woff2') format('woff2'),
+                 url('https://cdnjs.cloudflare.com/ajax/libs/arcade-classic/1.0.0/arcade-classic.woff') format('woff');
+            font-display: swap;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            font-family: 'ArcadeClassic', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .led-banner {
+            width: 800px;
+            height: 120px;
+            background: #1a1a1a;
+            border: 4px solid #333;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .led-display {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(100, 100, 100, 0.2) 1px, transparent 2px);
+            background-size: 6px 6px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .scrolling-text {
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-size: 80px;
+            font-weight: 400;
+            font-family: 'ArcadeClassic', monospace;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ffff00, #00ff00, #ffff00, #00ff00);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 4px #ffff00) 
+                    drop-shadow(0 0 8px #00ff00) 
+                    drop-shadow(0 0 12px #ffff00) 
+                    drop-shadow(0 0 16px #00ff00);
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            letter-spacing: 4px;
+            animation: scroll 12s linear infinite, colorShift 3s ease-in-out infinite;
+            height: 100px;
+            display: flex;
+            align-items: center;
+        }
+
+        @keyframes scroll {
+            0% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
+        }
+
+        @keyframes colorShift {
+            0%, 100% {
+                background-position: 0% 50%;
+                filter: drop-shadow(0 0 3px #ffff00) 
+                        drop-shadow(0 0 6px #00ff00) 
+                        drop-shadow(0 0 9px #ffff00);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: drop-shadow(0 0 3px #00ff00) 
+                        drop-shadow(0 0 6px #ffff00) 
+                        drop-shadow(0 0 9px #00ff00);
+            }
+        }
+
+        .led-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            background: linear-gradient(45deg, 
+                #ff0000, #ff4400, #ff8800, #ffaa00,
+                #ffcc00, #ffff00, #ccff00, #88ff00,
+                #44ff00, #00ff00, #00ff44, #00ff88,
+                #00ffcc, #00ffff, #00ccff, #0088ff,
+                #0044ff, #0000ff, #4400ff, #8800ff,
+                #cc00ff, #ff00ff, #ff00cc, #ff0088,
+                #ff0044, #ff0000);
+            background-size: 400% 400%;
+            animation: rainbow 3s ease infinite;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: subtract;
+            mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+
+        @keyframes rainbow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .led-dots {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(150, 150, 150, 0.15) 1px, transparent 2px);
+            background-size: 6px 6px;
+            opacity: 0.4;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            animation: flicker 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        .controls {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            padding: 8px 16px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'ArcadeClassic', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .control-btn:hover {
+            background: #555;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .color-red { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        .color-green { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+        .color-blue { color: #0066ff; text-shadow: 0 0 10px #0066ff; }
+        .color-yellow { color: #ffff00; text-shadow: 0 0 10px #ffff00; }
+        .color-cyan { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+        .color-magenta { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+    </style>
+</head>
+<body>
+    <div class="led-banner">
+        <div class="led-border"></div>
+        <div class="led-display"></div>
+        <div class="led-dots"></div>
+        <div class="scrolling-text" id="ledText">★LALETHESH★</div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="changeColor('yellow-green')">Y-G BLEND</button>
+            <button class="control-btn" onclick="changeColor('red')">RED</button>
+            <button class="control-btn" onclick="changeColor('green')">GREEN</button>
+            <button class="control-btn" onclick="changeColor('blue')">BLUE</button>
+            <button class="control-btn" onclick="changeColor('yellow')">YELLOW</button>
+            <button class="control-btn" onclick="changeColor('cyan')">CYAN</button>
+            <button class="control-btn" onclick="changeColor('magenta')">MAGENTA</button>
+            <button class="control-btn" onclick="changeText()">EDIT TEXT</button>
+        </div>
+    </div>
+
+    <script>
+        const ledText = document.getElementById('ledText');
+        const colors = {
+            red: '#ff0000',
+            green: '#00ff00',
+            blue: '#0066ff',
+            yellow: '#ffff00',
+            cyan: '#00ffff',
+            magenta: '#ff00ff'
+        };
+
+        function changeColor(color) {
+            const ledText = document.getElementById('ledText');
+            
+            if (color === 'yellow-green') {
+                // Reset to default yellow-green blend
+                ledText.style.background = 'linear-gradient(45deg, #ffff00, #00ff00, #ffff00, #00ff00)';
+                ledText.style.backgroundSize = '200% 200%';
+                ledText.style.webkitBackgroundClip = 'text';
+                ledText.style.backgroundClip = 'text';
+                ledText.style.webkitTextFillColor = 'transparent';
+                ledText.style.filter = `drop-shadow(0 0 3px #ffff00) 
+                                       drop-shadow(0 0 6px #00ff00) 
+                                       drop-shadow(0 0 9px #ffff00) 
+                                       drop-shadow(0 0 12px #00ff00)`;
+            } else {
+                const colorValue = colors[color];
+                ledText.style.background = 'none';
+                ledText.style.webkitTextFillColor = colorValue;
+                ledText.style.color = colorValue;
+                ledText.style.filter = `drop-shadow(0 0 3px ${colorValue}) 
+                                       drop-shadow(0 0 6px ${colorValue}) 
+                                       drop-shadow(0 0 9px ${colorValue}) 
+                                       drop-shadow(0 0 12px ${colorValue})`;
+            }
+        }
+
+        function changeText() {
+            const newText = prompt('Enter your LED banner message:', ledText.textContent);
+            if (newText && newText.trim()) {
+                ledText.textContent = newText.toUpperCase();
+            }
+        }
+
+        // Add some sparkle effects
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'absolute';
+            sparkle.style.width = '2px';
+            sparkle.style.height = '2px';
+            sparkle.style.backgroundColor = '#fff';
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.boxShadow = '0 0 6px #fff';
+            sparkle.style.animation = 'sparkle 1s ease-in-out';
+            sparkle.style.pointerEvents = 'none';
+            
+            document.querySelector('.led-banner').appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+
+        // Add sparkle animation
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkle {
+                0% { opacity: 0; transform: scale(0); }
+                50% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0); }
+            }
+        `;
+        document.head.appendChild(sparkleStyle);
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 500);
+    </script>
+</body>
+</html>
